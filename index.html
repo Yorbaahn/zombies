@@ -78,7 +78,7 @@ else {
         old_position.setMap(null);
         
         var pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-        var currentMarker = new google.maps.Marker({
+        var marker = new google.maps.Marker({
                 position: pos,
                 map: zombie_map
             });
