@@ -1,0 +1,83 @@
+<html>
+  <head>
+    <title>My page title</title>
+      <meta name="description" content="Zombie map within Whangamata">
+      <meta name="keywords" content="Zombie, Whangamata, map">
+      <meta name="author" content="Ian Fulton">
+      
+      <style>
+#zombie_map {
+    height: 100%;
+    width: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;  
+    background-color: grey;
+}
+</style>
+  </head>
+    
+  <body style="background-color:#9BDCB7;">
+    <div id="zombie_map"></div>
+      
+      <form>
+      <!--Select an emoji-->
+        <select id="icon_to_use">
+            <option value="vampire.png">Vampire</option>
+            <option value="swords.png">Swords</option>
+            <option value="hospital.png">Hospital</option>
+        </select>
+      </form>
+      
+    
+    <script>
+    var zombie_map;
+    var all_markers = []
+    var data = `-37.21891487201371 175.87454795837402 vampire.png
+            -37.214403665098914 175.87961196899414 vampire.png 
+            -37.21556566843142 175.8669948577881 vampire.png
+            -37.22205888699506 175.88210105895996 vampire.png
+            -37.21939331752984 175.8680248260498 swords.png
+            -37.206542584290396 175.87077140808105 hospital.png`;
+    var markers = data.split("\n");
+    
+    function initMap() {
+        zombie_map = new google.maps.Map(document.getElementById('zombie_map'), {zoom: 14,center: {lat: -37.214906, lng: 175.867046}
+        });    
+      
+        for (var i = 0; i < markers.length; i++) {
+            var marker_data = markers[i].trim();
+            marker_data = marker_data.split(" ");
+            var latitude = marker_data[0];
+            var longitude = marker_data[1];
+            var emoji = marker_data[2];
+            var marker_position = new google.maps.LatLng(latitude, longitude);
+            var marker = new google.maps.Marker({
+                position: marker_position,
+                map: zombie_map,
+                icon: emoji
+            });
+            all_markers.push(marker);
+        }
+        if(navigator.geolocation) {
+    navigator.geolocation.watchPosition(set_my_position);
+}
+else {
+    alert("Geolocation doesn't work in your browser");
+}
+       }   
+    
+    function set_my_position(position){
+        var pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+        var currentMarker = new google.maps.Marker({
+                position: pos,
+                map: zombie_map
+            });
+    }
+    </script>
+      
+      <script async defer
+              src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA5UEuZfXqPaFRYiSdyfFmBg7LklTXUnTA&callback=initMap">
+      </script>    
+  </body>
+</html>
