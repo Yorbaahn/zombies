@@ -32,7 +32,8 @@
     
     <script>
     var zombie_map;
-    var all_markers = []
+    var old_position;
+    var all_markers = [];
     var data = `-37.21891487201371 175.87454795837402 vampire.png
             -37.214403665098914 175.87961196899414 vampire.png 
             -37.21556566843142 175.8669948577881 vampire.png
@@ -44,7 +45,11 @@
     function initMap() {
         zombie_map = new google.maps.Map(document.getElementById('zombie_map'), {zoom: 14,center: {lat: -37.214906, lng: 175.867046}
         });    
-      
+        var old_position = new google.maps.Marker({
+                position: {lat: -37.206542584290396, lng: 175.87077140808105},
+                map: zombie_map
+            });
+    
         for (var i = 0; i < markers.length; i++) {
             var marker_data = markers[i].trim();
             marker_data = marker_data.split(" ");
@@ -68,11 +73,13 @@ else {
        }   
     
     function set_my_position(position){
+        old_position.setMap(null);
         var pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
         var currentMarker = new google.maps.Marker({
                 position: pos,
                 map: zombie_map
             });
+        old_position = marker;
     }
     </script>
       
