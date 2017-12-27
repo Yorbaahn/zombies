@@ -32,7 +32,8 @@
     
     <script>
     var zombie_map;
-    var tolerance;
+    var score;
+    var tolerance = 100;
     var old_position;
     var all_markers = [];
     var data = `-37.21891487201371 175.87454795837402 vampire.png
@@ -87,11 +88,14 @@ else {
         old_position = marker;
         for (var i = 0; i < all_markers.length; i++) {
             var distance = google.maps.geometry.spherical.computeDistanceBetween(pos, all_markers[i].getPosition());
-        if( distance < tolerance ){
+        if(distance < tolerance){
             var what_is_it = all_markers[i].getIcon();
             what_is_it = what_is_it.replace(".png", "");
             alert("Found the " + what_is_it );
-        }
+            all_markers[i].setMap(null);
+          }
+    }
+          
     }
     </script>
       
